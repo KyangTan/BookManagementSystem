@@ -22,5 +22,5 @@ public interface BookController {
     public ResponseEntity<Map<String, Object>> updateBook(@RequestParam UpdateBookRequest request);
 
     @DeleteMapping(value = "/{bookId}")
-    public void deleteBook(@RequestParam DeleteBookRequest request);
+    public ResponseEntity<Map<String, Object>> deleteBook(@RequestParam DeleteBookRequest request);
 }

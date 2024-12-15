@@ -4,17 +4,17 @@ import com.bufstudio.bookmanagementsystem.model.dto.GetBookDto;
 import com.bufstudio.bookmanagementsystem.model.dto.GetBookListDto;
 import com.bufstudio.bookmanagementsystem.model.entity.Book;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 
 public interface BookService {
 
     public void addBook(Book book);
 
-    public void updateBook();
-
-    public void deleteBook();
+    public GetBookDto updateBook(Long bookId, Book updatedBook);
 
     public GetBookDto getBook(Long bookId);
 
-    public GetBookListDto getBookList(String author, BigInteger price, String genre);
+    public GetBookListDto getBookList(String author, BigDecimal price, String genre);
+
+    void deleteBook(Long bookId);
 }

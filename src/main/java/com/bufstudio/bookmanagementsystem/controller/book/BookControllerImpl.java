@@ -2,6 +2,7 @@ package com.bufstudio.bookmanagementsystem.controller.book;
 
 import com.bufstudio.bookmanagementsystem.model.dto.GetBookDto;
 import com.bufstudio.bookmanagementsystem.model.dto.GetBookListDto;
+import com.bufstudio.bookmanagementsystem.model.entity.Book;
 import com.bufstudio.bookmanagementsystem.model.request.book.*;
 import com.bufstudio.bookmanagementsystem.service.book.BookService;
 import com.bufstudio.bookmanagementsystem.util.ResponseUtil;
@@ -32,16 +33,43 @@ public class BookControllerImpl implements BookController {
 
     @Override
     public ResponseEntity<Map<String, Object>> addBook(CreateBookRequest request) {
-        return ResponseUtil.createSuccessResponse("Successfully get one book", "");
+        // Convert request to Book entity
+        Book book = new Book();
+        book.setTitle(request.getTitle());
+        book.setAuthor(request.getAuthor());
+        book.setGenre(request.getGenre());
+        book.setPrice(request.getPrice());
+        book.setStockQuantity(request.getStockQuantity());
+        book.setRestockThreshold(request.getRestockThreshold());
+
+        // Save the book
+        bookService.addBook(book);
+
+        return ResponseUtil.createSuccessResponse("Successfully added a book", null);
     }
 
     @Override
     public ResponseEntity<Map<String, Object>> updateBook(UpdateBookRequest request) {
-        return ResponseUtil.createSuccessResponse("Successfully get one book", "");
+        // Convert request to Book entity for updates
+        Book updatedBook = new Book();
+        updatedBook.setTitle(request.getTitle());
+        updatedBook.setAuthor(request.getAuthor());
+        updatedBook.setGenre(request.getGenre());
+        updatedBook.setPrice(request.getPrice());
+        updatedBook.setStockQuantity(request.getStockQuantity());
+        updatedBook.setRestockThreshold(request.getRestockThreshold());
+
+        // Update the book and get the updated DTO
+        GetBookDto updatedBookDto = bookService.updateBook(request.getBookId(), updatedBook);
+
+        return ResponseUtil.createSuccessResponse("Successfully updated the book", updatedBookDto);
     }
 
     @Override
-    public void deleteBook(DeleteBookRequest request) {
+    public ResponseEntity<Map<String, Object>> deleteBook(DeleteBookRequest request) {
+        // Delete the book
+        bookService.deleteBook(request.getBookId());
 
+        return ResponseUtil.createSuccessResponse("Successfully deleted the book", null);
     }
 }

@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.math.BigInteger;
+import java.math.BigDecimal;
 
 @Data
 public class CreateBookRequest implements Serializable {
@@ -26,10 +26,65 @@ public class CreateBookRequest implements Serializable {
     private String genre;
 
     @NotEmpty(message = "Price is required")
-    private BigInteger price;
+    private BigDecimal price;
 
-    private Integer stock_quantity;
+    private Integer stockQuantity;
 
-    private Integer restock_threshold;
+    private Integer restockThreshold;
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public Integer getStockQuantity() {
+        return stockQuantity;
+    }
+
+    public void setStockQuantity(Integer stockQuantity) {
+        this.stockQuantity = stockQuantity;
+    }
+
+    public Integer getRestockThreshold() {
+        return restockThreshold;
+    }
+
+    public void setRestockThreshold(Integer restockThreshold) {
+        this.restockThreshold = restockThreshold;
+    }
 }

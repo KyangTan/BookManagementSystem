@@ -22,5 +22,53 @@ public class Order {
     private BigDecimal totalPrice;
     private String status;
     private Boolean isDeleted;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
 }
 
