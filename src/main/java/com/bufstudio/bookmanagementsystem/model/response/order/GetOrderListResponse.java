@@ -2,6 +2,7 @@ package com.bufstudio.bookmanagementsystem.model.response.order;
 
 
 
+import com.bufstudio.bookmanagementsystem.model.dto.GetOrderDto;
 import lombok.Data;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public class GetOrderListResponse {
     /**
      * 订单列表，元素为单个订单的响应DTO
      */
-    private List<GetOrderResponse> orders;
+    private List<GetOrderDto> orders;
 
     /**
      * 符合条件的订单总数，用于分页显示
@@ -28,11 +29,11 @@ public class GetOrderListResponse {
      */
     private int pageSize;
 
-    public List<GetOrderResponse> getOrders() {
+    public List<GetOrderDto> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<GetOrderResponse> orders) {
+    public void setOrders(List<GetOrderDto> orders) {
         this.orders = orders;
     }
 

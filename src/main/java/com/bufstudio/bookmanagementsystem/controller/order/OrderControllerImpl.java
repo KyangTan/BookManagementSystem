@@ -1,4 +1,5 @@
 package com.bufstudio.bookmanagementsystem.controller.order;
+import com.bufstudio.bookmanagementsystem.model.dto.GetOrderDto;
 import com.bufstudio.bookmanagementsystem.model.entity.Order;
 import com.bufstudio.bookmanagementsystem.model.request.order.*;
 import com.bufstudio.bookmanagementsystem.model.response.order.GetOrderListResponse;
@@ -44,7 +45,7 @@ public class OrderControllerImpl implements OrderController {
         // 假设使用GetOrderRequest
         GetOrderRequest getOrderRequest = new GetOrderRequest();
         getOrderRequest.setOrderId(orderId);
-        GetOrderResponse response = orderService.getOrder(getOrderRequest);
+        GetOrderDto response = orderService.getOrder(getOrderRequest);
         return ResponseUtil.createSuccessResponse("Successfully got the order", response);
     }
 
@@ -56,9 +57,18 @@ public class OrderControllerImpl implements OrderController {
 
     @Override
     public ResponseEntity<Map<String, Object>> updateOrder(UpdateOrderRequest request) {
-        GetOrderResponse updatedOrder = orderService.updateOrder(request);
-        return ResponseUtil.createSuccessResponse("Successfully updated the order", updatedOrder);
+        // 将请求数据转换为 Order 实体用于更新
+        Order updatedOrder = new Order();
+        updatedOrder.setTotalPrice(request.getTotalPrice());
+        updatedOrder.setStatus(request.getStatus());
+        updatedOrder.setId(request.getOrderId());
+        // 调用服务层更新订单，并获取更新后的 DTO
+        GetOrderDto updatedOrderDto = orderService.updateOrder(request.getOrderId(), updatedOrder);
+
+        // 返回成功响应
+        return ResponseUtil.createSuccessResponse("Successfully updated the order", updatedOrderDto);
     }
+
 
     @Override
     public ResponseEntity<Map<String, Object>> deleteOrder(DeleteOrderRequest request) {

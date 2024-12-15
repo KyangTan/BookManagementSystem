@@ -1,14 +1,14 @@
 package com.bufstudio.bookmanagementsystem.service.book.order;
 import com.bufstudio.bookmanagementsystem.mapper.OrderDtoMapper;
+import com.bufstudio.bookmanagementsystem.model.dto.GetOrderDto;
 import com.bufstudio.bookmanagementsystem.model.entity.Order;
 import com.bufstudio.bookmanagementsystem.model.request.order.*;
 import com.bufstudio.bookmanagementsystem.model.response.order.GetOrderListResponse;
-import com.bufstudio.bookmanagementsystem.model.response.order.GetOrderResponse;
 import com.bufstudio.bookmanagementsystem.repository.book.order.OrderRepository;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class OrderServiceImpl implements OrderService {
     OrderRepository orderRepository;
 
     @Override
-    public GetOrderResponse getOrder(GetOrderRequest request) {
+    public GetOrderDto getOrder(GetOrderRequest request) {
         // 查找订单
         Order order = orderRepository.findById(request.getOrderId())
                 .orElseThrow(() -> new IllegalArgumentException("Order not found with id: " + request.getOrderId()));
@@ -81,24 +81,34 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-    @Override
-    public GetOrderResponse updateOrder(UpdateOrderRequest request) {
-        Order existingOrder = orderRepository.findById(request.getOrderId())
-                .orElseThrow(() -> new IllegalArgumentException("Order not found with id: " + request.getOrderId()));
 
-        // 更新字段
-        if (request.getTotalPrice() != null) {
-            existingOrder.setTotalPrice(request.getTotalPrice());
+    @Override
+    public GetOrderDto updateOrder(Long orderId, Order updatedOrder) {
+        // 查找现有的订单，如果不存在则抛出异常
+        Order existingOrder = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Order not found with id: " + orderId));
+
+        // 更新订单字段
+        if (existingOrder.getIsDeleted()) {
+            throw new IllegalStateException("Cannot update a deleted order");
         }
-        if (request.getStatus() != null) {
-            existingOrder.setStatus(request.getStatus());
+        if (updatedOrder.getTotalPrice() != null) {
+            existingOrder.setTotalPrice(updatedOrder.getTotalPrice());
+        }
+        if (updatedOrder.getStatus() != null) {
+            existingOrder.setStatus(updatedOrder.getStatus());
+        }
+        if (updatedOrder.getId() != null) {
+            existingOrder.setId(updatedOrder.getId());
         }
 
         // 保存更新后的订单
         Order savedOrder = orderRepository.saveAndFlush(existingOrder);
 
+        // 将实体转换为 DTO 并返回
         return OrderDtoMapper.mapOrderToGetOrderDto(savedOrder);
     }
+
 
     @Override
     public void deleteOrder(DeleteOrderRequest request) {

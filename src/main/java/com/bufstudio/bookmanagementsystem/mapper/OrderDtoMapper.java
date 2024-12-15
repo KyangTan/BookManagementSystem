@@ -6,8 +6,8 @@ import com.bufstudio.bookmanagementsystem.model.response.order.GetOrderResponse;
 
 public class OrderDtoMapper {
 
-    public static GetOrderResponse mapOrderToGetOrderDto(Order order) {
-        GetOrderResponse dto = new GetOrderResponse();
+    public static GetOrderDto mapOrderToGetOrderDto(Order order) {
+        GetOrderDto dto = new GetOrderDto();
         dto.setId(order.getId());
         dto.setUserId(String.valueOf(order.getId()));
         dto.setCreatedAt(order.getCreatedAt());
