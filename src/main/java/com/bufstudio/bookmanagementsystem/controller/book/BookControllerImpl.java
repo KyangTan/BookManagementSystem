@@ -1,7 +1,7 @@
 package com.bufstudio.bookmanagementsystem.controller.book;
 
-import com.bufstudio.bookmanagementsystem.model.dto.book.GetBookDto;
-import com.bufstudio.bookmanagementsystem.model.dto.book.GetBookListDto;
+import com.bufstudio.bookmanagementsystem.model.dto.GetBookDto;
+import com.bufstudio.bookmanagementsystem.model.dto.GetBookListDto;
 import com.bufstudio.bookmanagementsystem.model.entity.Book;
 import com.bufstudio.bookmanagementsystem.model.request.book.*;
 import com.bufstudio.bookmanagementsystem.service.book.BookService;
@@ -19,8 +19,8 @@ public class BookControllerImpl implements BookController {
     BookService bookService;
 
     @Override
-    public ResponseEntity<Map<String, Object>> getBook(Long bookId) {
-        GetBookDto serviceResult = bookService.getBook(bookId);
+    public ResponseEntity<Map<String, Object>> getBook(GetBookRequest request) {
+        GetBookDto serviceResult = bookService.getBook(request.getBookId());
         return ResponseUtil.createSuccessResponse("Successfully get one book", serviceResult);
     }
 
@@ -28,7 +28,7 @@ public class BookControllerImpl implements BookController {
     public ResponseEntity<Map<String, Object>> getBookList(GetBookListRequest request) {
 
         GetBookListDto serviceResult = bookService.getBookList(request.getAuthor(), request.getPrice(), request.getGenre());
-        return ResponseUtil.createSuccessResponse("Successfully get list book", serviceResult);
+        return ResponseUtil.createSuccessResponse("Successfully get list book", "");
     }
 
     @Override
@@ -49,7 +49,7 @@ public class BookControllerImpl implements BookController {
     }
 
     @Override
-    public ResponseEntity<Map<String, Object>> updateBook(UpdateBookRequest request, Long bookId) {
+    public ResponseEntity<Map<String, Object>> updateBook(UpdateBookRequest request) {
         // Convert request to Book entity for updates
         Book updatedBook = new Book();
         updatedBook.setTitle(request.getTitle());
@@ -60,15 +60,15 @@ public class BookControllerImpl implements BookController {
         updatedBook.setRestockThreshold(request.getRestockThreshold());
 
         // Update the book and get the updated DTO
-        GetBookDto updatedBookDto = bookService.updateBook(bookId, updatedBook);
+        GetBookDto updatedBookDto = bookService.updateBook(request.getBookId(), updatedBook);
 
         return ResponseUtil.createSuccessResponse("Successfully updated the book", updatedBookDto);
     }
 
     @Override
-    public ResponseEntity<Map<String, Object>> deleteBook(DeleteBookRequest request, Long bookId) {
+    public ResponseEntity<Map<String, Object>> deleteBook(DeleteBookRequest request) {
         // Delete the book
-        bookService.deleteBook(bookId);
+        bookService.deleteBook(request.getBookId());
 
         return ResponseUtil.createSuccessResponse("Successfully deleted the book", null);
     }
