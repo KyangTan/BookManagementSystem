@@ -1,28 +1,18 @@
-package com.bufstudio.bookmanagementsystem.model.entity;
+package com.bufstudio.bookmanagementsystem.model.response.order;
 
-import jakarta.persistence.*;
 import lombok.Data;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "orders")
 @Data
-public class Order {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class GetOrderResponse {
     private Long id;
-
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
+    private String userId;
     private LocalDateTime createdAt;
     private BigDecimal totalPrice;
     private String status;
-    private Boolean isDeleted;
+
 
     public Long getId() {
         return id;
@@ -32,16 +22,12 @@ public class Order {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public String getUserId() {
+        return userId;
     }
 
-
-
-
-
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -67,15 +53,4 @@ public class Order {
     public void setStatus(String status) {
         this.status = status;
     }
-
-    public Boolean getIsDeleted() {
-        return isDeleted;
-    }
-
-    public void setIsDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
-
-
 }
-
