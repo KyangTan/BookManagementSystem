@@ -84,7 +84,7 @@ public class BookServiceImpl implements BookService {
         existingBook.setRestockThreshold(updatedBook.getRestockThreshold());
 
         // Save updated book
-        Book savedBook = bookRepository.saveAndFlush(existingBook);
+        Book savedBook = bookRepository.save(existingBook);
 
         // Convert to DTO and return
         return BookDtoMapper.mapBookToGetBookDto(savedBook);
