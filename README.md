@@ -90,8 +90,8 @@ Book Management System is an open-source project designed to help book-selling b
 ### 📊 Analysis
 | Method   | Endpoint                  | Description                           |
 |----------|---------------------------|---------------------------------------|
-| `GET`    | `/analysis/top-selling`   | Retrieve top-selling books (limit)    |
-| `GET`    | `/analysis/top-earning`   | Retrieve top-earning books (limit)    |
+| `GET`    | `/analysis/top-selling-books`   | Retrieve top-selling books (limit)    |
+| `GET`    | `/analysis/top-earning-books`   | Retrieve top-earning books (limit)    |
 
 ## 🧑‍💻 Contributing
 We welcome contributions from the community! Here's how you can help:
