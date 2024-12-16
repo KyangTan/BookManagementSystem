@@ -10,17 +10,17 @@ import java.util.Map;
 public interface BookController {
 
     @GetMapping(value = "/{bookId}")
-    public ResponseEntity<Map<String, Object>> getBook(@RequestParam GetBookRequest request);
+    ResponseEntity<Map<String, Object>> getBook(@PathVariable Long bookId);
 
     @GetMapping
-    public ResponseEntity<Map<String, Object>> getBookList(@RequestParam GetBookListRequest request);
+    ResponseEntity<Map<String, Object>> getBookList(@RequestBody GetBookListRequest request);
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> addBook(@RequestParam CreateBookRequest request);
+    ResponseEntity<Map<String, Object>> addBook(@RequestBody CreateBookRequest request);
 
     @PutMapping(value = "/{bookId}")
-    public ResponseEntity<Map<String, Object>> updateBook(@RequestParam UpdateBookRequest request);
+    ResponseEntity<Map<String, Object>> updateBook(@RequestBody UpdateBookRequest request , @PathVariable Long bookId);
 
     @DeleteMapping(value = "/{bookId}")
-    public ResponseEntity<Map<String, Object>> deleteBook(@RequestParam DeleteBookRequest request);
+    ResponseEntity<Map<String, Object>> deleteBook(@RequestBody DeleteBookRequest request , @PathVariable Long bookId);
 }

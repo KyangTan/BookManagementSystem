@@ -5,6 +5,8 @@ import com.bufstudio.bookmanagementsystem.model.dto.GetBookDto;
 import com.bufstudio.bookmanagementsystem.model.dto.GetBookListDto;
 import com.bufstudio.bookmanagementsystem.model.entity.Book;
 import com.bufstudio.bookmanagementsystem.repository.book.BookRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,8 @@ public class BookServiceImpl implements BookService {
 
     @Autowired
     BookRepository bookRepository;
+
+    Logger logger = LoggerFactory.getLogger(BookServiceImpl.class);
 
     @Override
     public GetBookDto getBook(Long bookId) {
@@ -45,12 +49,13 @@ public class BookServiceImpl implements BookService {
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
 
-        GetBookListDto getBookListDto = new GetBookListDto();
-
         List<GetBookDto> convertedBookList = bookList.stream()
                 .map(BookDtoMapper::mapBookToGetBookDto)
                 .toList();
 
+        logger.info("Found {} books", convertedBookList.size());
+
+        GetBookListDto getBookListDto = new GetBookListDto();
         getBookListDto.setBookList(convertedBookList);
 
         return getBookListDto;

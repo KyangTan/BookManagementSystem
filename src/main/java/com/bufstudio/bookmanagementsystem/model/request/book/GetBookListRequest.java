@@ -54,13 +54,13 @@ public class GetBookListRequest implements Serializable {
     }
 
     //    private Integer stockQuantityFilterLowerBound;
-//    private Integer stockQuantityFilterUpperBound;
-//
-//    private BigDecimal priceFilterLowerBound;
-//    private BigDecimal priceFilterUpperBound;
-//
-//    private Integer page;
-//    private Integer size;
-//    private String sort;
-//    private String orderByField;
+    //    private Integer stockQuantityFilterUpperBound;
+    //
+    //    private BigDecimal priceFilterLowerBound;
+    //    private BigDecimal priceFilterUpperBound;
+    //
+    //    private Integer page;
+    //    private Integer size;
+    //    private String sort;
+    //    private String orderByField;
 }

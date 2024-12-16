@@ -1,6 +1,5 @@
 package com.bufstudio.bookmanagementsystem.model.request.book;
 
-import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 import java.io.Serial;
@@ -13,8 +12,6 @@ public class UpdateBookRequest implements Serializable {
     @Serial
     private static final long serialVersionUID = 6764624002336635225L;
 
-    @NotEmpty(message = "Book Id is required")
-    private Long bookId;
     private String title;
     private String author;
     private String genre;
@@ -22,14 +19,6 @@ public class UpdateBookRequest implements Serializable {
     private Integer restockThreshold;
     private BigDecimal price;
 
-
-    public Long getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(Long bookId) {
-        this.bookId = bookId;
-    }
 
     public String getTitle() {
         return title;
