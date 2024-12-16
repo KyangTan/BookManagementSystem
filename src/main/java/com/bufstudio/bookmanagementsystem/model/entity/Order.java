@@ -2,11 +2,14 @@ package com.bufstudio.bookmanagementsystem.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.SQLDelete;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders")
+@SQLDelete(sql = "UPDATE orders SET is_deleted = true WHERE id=?")
 @Data
 public class Order {
 
@@ -22,7 +25,7 @@ public class Order {
     private LocalDateTime createdAt;
     private BigDecimal totalPrice;
     private String status;
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     public Long getId() {
         return id;
@@ -35,9 +38,6 @@ public class Order {
     public User getUser() {
         return user;
     }
-
-
-
 
 
     public void setUser(User user) {

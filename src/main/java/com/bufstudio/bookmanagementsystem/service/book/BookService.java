@@ -8,13 +8,13 @@ import java.math.BigDecimal;
 
 public interface BookService {
 
-    public void addBook(Book book);
+    void addBook(Book book);
 
-    public GetBookDto updateBook(Long bookId, Book updatedBook);
+    GetBookDto updateBook(Long bookId, Book updatedBook);
 
-    public GetBookDto getBook(Long bookId);
+    GetBookDto getBook(Long bookId);
 
-    public GetBookListDto getBookList(String author, BigDecimal price, String genre);
+    GetBookListDto getBookList(String author, BigDecimal price, String genre);
 
     void deleteBook(Long bookId);
 }

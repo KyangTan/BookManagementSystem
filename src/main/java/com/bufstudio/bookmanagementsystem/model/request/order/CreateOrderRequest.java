@@ -1,47 +1,38 @@
 package com.bufstudio.bookmanagementsystem.model.request.order;
 
+import com.bufstudio.bookmanagementsystem.model.dto.BookOrderDto;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 public class CreateOrderRequest implements Serializable {
     @Serial
     private static final long serialVersionUID = -1234567890123456789L;
-    @NotEmpty(message = "userId is required")
+
+    @NotEmpty(message = "User ID is required")
     private Long userId;
-    @NotEmpty(message = "totalPrice is required")
-    private BigDecimal totalPrice;
 
-    public @NotEmpty(message = "status is required") String getStatus() {
-        return status;
-    }
-
-    public void setStatus(@NotEmpty(message = "status is required") String status) {
-        this.status = status;
-    }
-
-    public @NotEmpty(message = "totalPrice is required") BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(@NotEmpty(message = "totalPrice is required") BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
+    @NotEmpty(message = "At least one book is required")
+    private List<BookOrderDto> books;
 
     public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(@NotEmpty(message = "userId is required") Long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    @NotEmpty(message = "status is required")
-    private String status;
+    public List<BookOrderDto> getBooks() {
+        return books;
+    }
 
-
+    public void setBooks(List<BookOrderDto> books) {
+        this.books = books;
+    }
 }

@@ -13,25 +13,20 @@ import java.util.Map;
 @RequestMapping("/orders")
 public interface OrderController {
 
+    @GetMapping("/{orderId}")
+    ResponseEntity<Map<String, Object>> getOrder(@PathVariable Long orderId);
+
+    @GetMapping
+    ResponseEntity<Map<String, Object>> getOrderList(@RequestBody GetOrderListRequest request);
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> createNewOrder(@RequestBody CreateOrderRequest request);
+    ResponseEntity<Map<String, Object>> createNewOrder(@RequestBody CreateOrderRequest request);
 
+    @PutMapping(value = "/{orderId}")
+    ResponseEntity<Map<String, Object>> updateOrder(@PathVariable Long orderId, @RequestBody UpdateOrderRequest request);
 
-    @GetMapping("/{orderId}")
-    public ResponseEntity<Map<String, Object>> getOrder(@PathVariable Long orderId);
-
-
-    @PostMapping("/list")
-    public ResponseEntity<Map<String, Object>> getOrderList(@RequestBody GetOrderListRequest request);
-
-
-    @PutMapping
-    public ResponseEntity<Map<String, Object>> updateOrder(@RequestBody UpdateOrderRequest request);
-
-
-    @DeleteMapping
-    public ResponseEntity<Map<String, Object>> deleteOrder(@RequestBody DeleteOrderRequest request);
+    @DeleteMapping(value = "/{orderId}")
+    ResponseEntity<Map<String, Object>> deleteOrder(@PathVariable Long orderId);
 
 
 //    @PostMapping("/applyPromo")

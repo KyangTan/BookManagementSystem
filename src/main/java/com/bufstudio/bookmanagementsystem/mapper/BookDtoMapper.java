@@ -16,4 +16,16 @@ public class BookDtoMapper {
         dto.setRestockThreshold(book.getRestockThreshold());
         return dto;
     }
+
+    public static Book mapGetBookDtoToBook(GetBookDto dto) {
+        Book book = new Book();
+        book.setId(dto.getId());
+        book.setTitle(dto.getTitle());
+        book.setAuthor(dto.getAuthor());
+        book.setGenre(dto.getGenre());
+        book.setPrice(dto.getPrice());
+        book.setStockQuantity(dto.getStockQuantity());
+        book.setRestockThreshold(dto.getRestockThreshold());
+        return book;
+    }
 }

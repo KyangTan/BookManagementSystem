@@ -9,7 +9,7 @@ public class OrderDtoMapper {
     public static GetOrderDto mapOrderToGetOrderDto(Order order) {
         GetOrderDto dto = new GetOrderDto();
         dto.setId(order.getId());
-        dto.setUserId(String.valueOf(order.getId()));
+        dto.setUserId(order.getId());
         dto.setCreatedAt(order.getCreatedAt());
         dto.setTotalPrice(order.getTotalPrice());
         dto.setStatus(order.getStatus());

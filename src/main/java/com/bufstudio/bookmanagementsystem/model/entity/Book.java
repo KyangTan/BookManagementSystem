@@ -7,8 +7,8 @@ import org.hibernate.annotations.SQLDelete;
 import java.math.BigDecimal;
 
 @Entity
-@SQLDelete(sql = "UPDATE books SET is_deleted = true WHERE id=?")
 @Table(name = "books")
+@SQLDelete(sql = "UPDATE books SET is_deleted = true WHERE id=?")
 @Data
 public class Book {
 
@@ -22,7 +22,7 @@ public class Book {
     private BigDecimal price;
     private Integer stockQuantity;
     private Integer restockThreshold;
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     public Long getId() {
         return id;
@@ -80,11 +80,11 @@ public class Book {
         this.restockThreshold = restockThreshold;
     }
 
-    public Boolean getDeleted() {
+    public Boolean getIsDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setIsDeleted(Boolean deleted) {
         isDeleted = deleted;
     }
 }

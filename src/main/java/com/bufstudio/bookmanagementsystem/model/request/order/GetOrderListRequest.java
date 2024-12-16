@@ -11,7 +11,7 @@ public class GetOrderListRequest implements Serializable {
     @Serial
     private static final long serialVersionUID = -2094344702936651361L;
 
-    private String userId;
+    private Long userId;
     private BigDecimal priceFilterLowerBound;
     private BigDecimal priceFilterUpperBound;
     private String status;
@@ -20,11 +20,11 @@ public class GetOrderListRequest implements Serializable {
     private String sort;
     private String orderByField;
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

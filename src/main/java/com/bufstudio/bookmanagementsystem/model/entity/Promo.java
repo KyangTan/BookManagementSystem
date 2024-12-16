@@ -20,7 +20,7 @@ public class Promo {
 
     private LocalDateTime effectiveStartTimestamp;
     private LocalDateTime effectiveEndTimestamp;
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     public Long getId() {
         return id;
@@ -70,11 +70,11 @@ public class Promo {
         this.effectiveEndTimestamp = effectiveEndTimestamp;
     }
 
-    public Boolean getDeleted() {
+    public Boolean getIsDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setIsDeleted(Boolean deleted) {
         isDeleted = deleted;
     }
 }

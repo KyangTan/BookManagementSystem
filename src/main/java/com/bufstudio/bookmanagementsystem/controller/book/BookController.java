@@ -19,8 +19,8 @@ public interface BookController {
     ResponseEntity<Map<String, Object>> addBook(@RequestBody CreateBookRequest request);
 
     @PutMapping(value = "/{bookId}")
-    ResponseEntity<Map<String, Object>> updateBook(@RequestBody UpdateBookRequest request , @PathVariable Long bookId);
+    ResponseEntity<Map<String, Object>> updateBook(@RequestBody UpdateBookRequest request, @PathVariable Long bookId);
 
     @DeleteMapping(value = "/{bookId}")
-    ResponseEntity<Map<String, Object>> deleteBook(@RequestBody DeleteBookRequest request , @PathVariable Long bookId);
+    ResponseEntity<Map<String, Object>> deleteBook(@RequestBody DeleteBookRequest request, @PathVariable Long bookId);
 }

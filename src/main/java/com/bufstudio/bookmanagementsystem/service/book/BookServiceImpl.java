@@ -5,6 +5,7 @@ import com.bufstudio.bookmanagementsystem.model.dto.GetBookDto;
 import com.bufstudio.bookmanagementsystem.model.dto.GetBookListDto;
 import com.bufstudio.bookmanagementsystem.model.entity.Book;
 import com.bufstudio.bookmanagementsystem.repository.book.BookRepository;
+import jakarta.persistence.criteria.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
-import jakarta.persistence.criteria.Predicate;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -26,7 +25,9 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public GetBookDto getBook(Long bookId) {
-        Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("Book not found with id: " + bookId));
+        Book book = bookRepository.findById(bookId)
+                .filter(b -> !b.getIsDeleted())
+                .orElseThrow(() -> new IllegalArgumentException("Book not found with id: " + bookId));
 
         return BookDtoMapper.mapBookToGetBookDto(book);
     }
@@ -45,6 +46,8 @@ public class BookServiceImpl implements BookService {
             if (genre != null) {
                 predicates.add(criteriaBuilder.equal(root.get("genre"), genre));
             }
+
+            predicates.add(criteriaBuilder.equal(root.get("isDeleted"), false));
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
@@ -90,10 +93,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteBook(Long bookId) {
-        Book book = bookRepository.findById(bookId)
+        Book book = bookRepository.findByIdWithPessimisticLock(bookId)
                 .orElseThrow(() -> new IllegalArgumentException("Book not found with id: " + bookId));
 
-        // Delete the book
+        // Logical delete the book
         bookRepository.delete(book);
     }
 

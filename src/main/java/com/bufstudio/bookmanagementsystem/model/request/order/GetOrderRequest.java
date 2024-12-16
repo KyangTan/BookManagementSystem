@@ -11,6 +11,12 @@ public class GetOrderRequest implements Serializable {
     @Serial
     private static final long serialVersionUID = -3176623870790075374L;
 
+    @NotNull(message = "Order Id is required")
+    private Long orderId;
+
+    @NotEmpty(message = "User Id is required")
+    private Long userId;
+
     public @NotNull(message = "Order Id is required") Long getOrderId() {
         return orderId;
     }
@@ -19,17 +25,11 @@ public class GetOrderRequest implements Serializable {
         this.orderId = orderId;
     }
 
-    public @NotEmpty(message = "User Id is required") String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(@NotEmpty(message = "User Id is required") String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
-
-    @NotNull(message = "Order Id is required")
-    private Long orderId;
-
-    @NotEmpty(message = "User Id is required")
-    private String userId;
 }

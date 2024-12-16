@@ -14,7 +14,7 @@ public class CreateBookRequest implements Serializable {
     private static final long serialVersionUID = -124494212958511030L;
 
     @NotEmpty(message = "User Id is required")
-    private String userId;
+    private Long userId;
 
     @NotEmpty(message = "Title is required")
     private String title;
@@ -32,11 +32,11 @@ public class CreateBookRequest implements Serializable {
 
     private Integer restockThreshold;
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
