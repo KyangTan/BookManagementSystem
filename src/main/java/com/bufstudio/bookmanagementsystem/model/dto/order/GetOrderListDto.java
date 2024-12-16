@@ -1,4 +1,4 @@
-package com.bufstudio.bookmanagementsystem.model.dto;
+package com.bufstudio.bookmanagementsystem.model.dto.order;
 
 import java.util.List;
 

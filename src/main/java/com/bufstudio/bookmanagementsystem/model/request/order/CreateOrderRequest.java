@@ -1,8 +1,7 @@
 package com.bufstudio.bookmanagementsystem.model.request.order;
 
-import com.bufstudio.bookmanagementsystem.model.dto.BookOrderDto;
+import com.bufstudio.bookmanagementsystem.model.dto.order.BookOrderDto;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.io.Serial;

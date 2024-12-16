@@ -1,6 +1,6 @@
 package com.bufstudio.bookmanagementsystem.mapper;
 
-import com.bufstudio.bookmanagementsystem.model.dto.GetBookDto;
+import com.bufstudio.bookmanagementsystem.model.dto.book.GetBookDto;
 import com.bufstudio.bookmanagementsystem.model.entity.Book;
 
 public class BookDtoMapper {

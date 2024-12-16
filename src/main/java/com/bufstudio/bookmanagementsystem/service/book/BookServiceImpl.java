@@ -1,8 +1,8 @@
 package com.bufstudio.bookmanagementsystem.service.book;
 
 import com.bufstudio.bookmanagementsystem.mapper.BookDtoMapper;
-import com.bufstudio.bookmanagementsystem.model.dto.GetBookDto;
-import com.bufstudio.bookmanagementsystem.model.dto.GetBookListDto;
+import com.bufstudio.bookmanagementsystem.model.dto.book.GetBookDto;
+import com.bufstudio.bookmanagementsystem.model.dto.book.GetBookListDto;
 import com.bufstudio.bookmanagementsystem.model.entity.Book;
 import com.bufstudio.bookmanagementsystem.repository.book.BookRepository;
 import jakarta.persistence.criteria.Predicate;

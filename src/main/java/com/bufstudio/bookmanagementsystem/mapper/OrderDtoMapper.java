@@ -1,8 +1,7 @@
 package com.bufstudio.bookmanagementsystem.mapper;
 
-import com.bufstudio.bookmanagementsystem.model.dto.GetOrderDto;
+import com.bufstudio.bookmanagementsystem.model.dto.order.GetOrderDto;
 import com.bufstudio.bookmanagementsystem.model.entity.Order;
-import com.bufstudio.bookmanagementsystem.model.response.order.GetOrderResponse;
 
 public class OrderDtoMapper {
 

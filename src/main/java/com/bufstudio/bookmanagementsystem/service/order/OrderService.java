@@ -1,7 +1,7 @@
 package com.bufstudio.bookmanagementsystem.service.order;
 
-import com.bufstudio.bookmanagementsystem.model.dto.BookOrderDto;
-import com.bufstudio.bookmanagementsystem.model.dto.GetOrderDto;
+import com.bufstudio.bookmanagementsystem.model.dto.order.BookOrderDto;
+import com.bufstudio.bookmanagementsystem.model.dto.order.GetOrderDto;
 import com.bufstudio.bookmanagementsystem.model.entity.Order;
 
 import com.bufstudio.bookmanagementsystem.model.response.order.GetOrderListResponse;

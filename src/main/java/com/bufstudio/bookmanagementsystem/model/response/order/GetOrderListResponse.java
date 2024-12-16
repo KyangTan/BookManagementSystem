@@ -2,7 +2,7 @@ package com.bufstudio.bookmanagementsystem.model.response.order;
 
 
 
-import com.bufstudio.bookmanagementsystem.model.dto.GetOrderDto;
+import com.bufstudio.bookmanagementsystem.model.dto.order.GetOrderDto;
 import lombok.Data;
 
 import java.util.List;
