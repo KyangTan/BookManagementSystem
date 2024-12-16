@@ -6,6 +6,7 @@ import org.hibernate.annotations.SQLDelete;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -21,6 +22,8 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<OrderedBook> orderedBooks;
 
     private LocalDateTime createdAt;
     private BigDecimal totalPrice;
@@ -76,6 +79,12 @@ public class Order {
         isDeleted = deleted;
     }
 
+    public List<OrderedBook> getOrderedBooks() {
+        return orderedBooks;
+    }
 
+    public void setOrderedBooks(List<OrderedBook> orderedBooks) {
+        this.orderedBooks = orderedBooks;
+    }
 }
 

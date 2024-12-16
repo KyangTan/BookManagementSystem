@@ -15,6 +15,15 @@ public class GetBookRequest implements Serializable {
     @NotEmpty(message = "User Id is required")
     private Long userId;
 
+    public Long getBookId() {
+        return BookId;
+    }
+
+    public void setBookId(Long bookId) {
+        BookId = bookId;
+    }
+
+    private Long BookId;
     public Long getUserId() {
         return userId;
     }

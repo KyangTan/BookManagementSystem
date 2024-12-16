@@ -1,7 +1,8 @@
 package com.bufstudio.bookmanagementsystem.controller.book;
 
-import com.bufstudio.bookmanagementsystem.model.dto.GetBookDto;
-import com.bufstudio.bookmanagementsystem.model.dto.GetBookListDto;
+
+import com.bufstudio.bookmanagementsystem.model.dto.book.GetBookDto;
+import com.bufstudio.bookmanagementsystem.model.dto.book.GetBookListDto;
 import com.bufstudio.bookmanagementsystem.model.entity.Book;
 import com.bufstudio.bookmanagementsystem.model.request.book.*;
 import com.bufstudio.bookmanagementsystem.service.book.BookService;

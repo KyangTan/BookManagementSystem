@@ -1,5 +1,4 @@
 package com.bufstudio.bookmanagementsystem.model.request.promo;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
