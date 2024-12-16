@@ -9,11 +9,12 @@ import com.bufstudio.bookmanagementsystem.service.book.BookService;
 import com.bufstudio.bookmanagementsystem.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
 @RestController
+@RequestMapping("/books")
 public class BookControllerImpl implements BookController {
 
     @Autowired
@@ -31,9 +32,9 @@ public class BookControllerImpl implements BookController {
         GetBookListDto serviceResult = bookService.getBookList(request.getAuthor(), request.getPrice(), request.getGenre());
         return ResponseUtil.createSuccessResponse("Successfully get list book", "");
     }
-
+    @PostMapping
     @Override
-    public ResponseEntity<Map<String, Object>> addBook(CreateBookRequest request) {
+    public ResponseEntity<Map<String, Object>> addBook(@RequestBody CreateBookRequest request) {
         // Convert request to Book entity
         Book book = new Book();
         book.setTitle(request.getTitle());
@@ -48,9 +49,9 @@ public class BookControllerImpl implements BookController {
 
         return ResponseUtil.createSuccessResponse("Successfully added a book", null);
     }
-
+    @PutMapping(value = "/{bookId}")
     @Override
-    public ResponseEntity<Map<String, Object>> updateBook(UpdateBookRequest request) {
+    public ResponseEntity<Map<String, Object>> updateBook(@RequestBody UpdateBookRequest request) {
         // Convert request to Book entity for updates
         Book updatedBook = new Book();
         updatedBook.setTitle(request.getTitle());
