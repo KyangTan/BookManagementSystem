@@ -1,6 +1,6 @@
-# BookManagementSystem 📚
+# Book Management System 📚
 
-BookManagementSystem is an open-source project designed to help book-selling businesses establish their online presence quickly and efficiently. With robust features like CRUD operations for books, orders, and promos, this system makes it easy to manage your bookstore online. The system also includes a powerful Analysis module to gain insights into your business performance.
+Book Management System is an open-source project designed to help book-selling businesses establish their online presence quickly and efficiently. With robust features like CRUD operations for books, orders, and promos, this system makes it easy to manage your bookstore online. The system also includes a powerful Analysis module to gain insights into your business performance.
 
 ---
 
@@ -116,5 +116,3 @@ This project is licensed under the MIT License. See the LICENSE file for more de
 
 ## 🙌 Acknowledgments
 Thanks to the open-source community for inspiring and supporting this project. Let's empower small businesses to go online! 🎉
-
-Let me know if you need further refinements!
