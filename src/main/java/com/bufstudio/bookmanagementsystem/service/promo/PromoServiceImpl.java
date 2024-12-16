@@ -2,8 +2,6 @@ package com.bufstudio.bookmanagementsystem.service.promo;
 
 import com.bufstudio.bookmanagementsystem.model.dto.promo.PromoCriteriaDto;
 import com.bufstudio.bookmanagementsystem.model.dto.promo.PromoDto;
-import com.bufstudio.bookmanagementsystem.model.entity.Promo;
-import com.bufstudio.bookmanagementsystem.model.entity.PromoCriteria;
 import com.bufstudio.bookmanagementsystem.repository.promo.PromoRepository;
 import com.bufstudio.bookmanagementsystem.repository.promo_criteria.PromoCriteriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
