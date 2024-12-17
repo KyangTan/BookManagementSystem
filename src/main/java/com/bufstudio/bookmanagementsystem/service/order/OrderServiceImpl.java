@@ -4,14 +4,13 @@ import com.bufstudio.bookmanagementsystem.enumeration.OrderStatusEnum;
 import com.bufstudio.bookmanagementsystem.mapper.OrderDtoMapper;
 import com.bufstudio.bookmanagementsystem.model.dto.order.BookOrderDto;
 import com.bufstudio.bookmanagementsystem.model.dto.order.GetOrderDto;
-import com.bufstudio.bookmanagementsystem.model.entity.Book;
-import com.bufstudio.bookmanagementsystem.model.entity.Order;
-import com.bufstudio.bookmanagementsystem.model.entity.OrderedBook;
-import com.bufstudio.bookmanagementsystem.model.entity.User;
+import com.bufstudio.bookmanagementsystem.model.entity.*;
 import com.bufstudio.bookmanagementsystem.model.response.order.GetOrderListResponse;
+import com.bufstudio.bookmanagementsystem.repository.Promotedorder.PromotedOrderRepository;
 import com.bufstudio.bookmanagementsystem.repository.book.BookRepository;
 import com.bufstudio.bookmanagementsystem.repository.order.OrderRepository;
 import com.bufstudio.bookmanagementsystem.repository.ordered_book.OrderedBookRepository;
+import com.bufstudio.bookmanagementsystem.repository.promo.PromoRepository;
 import com.bufstudio.bookmanagementsystem.repository.user.UserRepository;
 import com.bufstudio.bookmanagementsystem.service.book.BookService;
 import jakarta.persistence.criteria.Predicate;
@@ -23,6 +22,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -41,6 +41,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     BookRepository bookRepository;
+
+    @Autowired
+    PromoRepository promoRepository;
+
+    @Autowired
+    PromotedOrderRepository promotedOrderRepository;
 
     @Override
     public GetOrderDto getOrder(Long orderId) {
@@ -199,5 +205,38 @@ public class OrderServiceImpl implements OrderService {
         // Logical delete the order
         orderRepository.delete(order);
     }
+    @Override
+    @Transactional
+    public boolean applyPromoToOrder(Long orderId, Long promoId) {
+        Optional<Order> orderOpt = orderRepository.findById(orderId);
+        Optional<Promo> promoOpt = promoRepository.findById(promoId);
+
+        if (orderOpt.isPresent() && promoOpt.isPresent()) {
+            Order order = orderOpt.get();
+            Promo promo = promoOpt.get();
+
+            // 计算折扣后的总价
+            BigDecimal discountRate = promo.getDiscountRate();
+            BigDecimal discountedPrice = order.getTotalPrice()
+                    .multiply(BigDecimal.valueOf(1).subtract(discountRate.divide(BigDecimal.valueOf(100))));
+
+            // 设置新的总价
+            order.setTotalPrice(discountedPrice);
+            orderRepository.save(order);
+
+            // 保存促销与订单的关联
+            PromotedOrder promotedOrder = new PromotedOrder();
+            promotedOrder.setOrder(order);
+            promotedOrder.setPromo(promo);
+            promotedOrder.setCreatedAt(java.time.LocalDateTime.now());
+            promotedOrder.setUpdatedAt(java.time.LocalDateTime.now());
+
+            promotedOrderRepository.save(promotedOrder);
+
+            return true;
+        }
+        return false;
+    }
 }
+
 

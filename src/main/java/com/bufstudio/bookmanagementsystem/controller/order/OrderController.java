@@ -5,6 +5,7 @@ import com.bufstudio.bookmanagementsystem.model.request.order.CreateOrderRequest
 import com.bufstudio.bookmanagementsystem.model.request.order.UpdateOrderRequest;
 import com.bufstudio.bookmanagementsystem.model.request.order.DeleteOrderRequest;
 //import com.bufstudio.bookmanagementsystem.model.request.order.ApplyPromoRequest;
+import com.bufstudio.bookmanagementsystem.model.request.promo.ApplyPromoRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,6 @@ public interface OrderController {
     ResponseEntity<Map<String, Object>> deleteOrder(@PathVariable Long orderId);
 
 
-//    @PostMapping("/applyPromo")
-//    public ResponseEntity<Map<String, Object>> applyPromoToOrder(@RequestBody ApplyPromoRequest request);
+    @PostMapping("/applyPromo")
+    ResponseEntity<Map<String, Object>> applyPromoToOrder(@PathVariable Long orderId, @PathVariable Long promoId);
 }

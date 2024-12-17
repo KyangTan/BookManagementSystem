@@ -3,20 +3,28 @@ package com.bufstudio.bookmanagementsystem.controller.order;
 import com.bufstudio.bookmanagementsystem.model.dto.order.BookOrderDto;
 import com.bufstudio.bookmanagementsystem.model.dto.order.GetOrderDto;
 import com.bufstudio.bookmanagementsystem.model.entity.Order;
+import com.bufstudio.bookmanagementsystem.model.entity.Promo;
+import com.bufstudio.bookmanagementsystem.model.entity.PromotedOrder;
 import com.bufstudio.bookmanagementsystem.model.request.order.*;
+import com.bufstudio.bookmanagementsystem.model.request.promo.ApplyPromoRequest;
 import com.bufstudio.bookmanagementsystem.model.response.order.GetOrderListResponse;
 //import com.bufstudio.bookmanagementsystem.service.order.OrderService;
 //import com.bufstudio.bookmanagementsystem.service.order.OrderPromoService; // 假设有这类服务来处理促销应用
+import com.bufstudio.bookmanagementsystem.repository.order.OrderRepository;
+import com.bufstudio.bookmanagementsystem.repository.promo.PromoRepository;
 import com.bufstudio.bookmanagementsystem.service.order.OrderService;
 import com.bufstudio.bookmanagementsystem.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 public class OrderControllerImpl implements OrderController {
@@ -70,4 +78,12 @@ public class OrderControllerImpl implements OrderController {
     }
 
 
+
+    public ResponseEntity<Map<String, Object>> applyPromoToOrder( Long orderId,  Long promoId) {
+        orderService.applyPromoToOrder(orderId,promoId);
+        return ResponseUtil.createSuccessResponse("Promo applied successfully to the order", null);
+
+    }
 }
+
+
