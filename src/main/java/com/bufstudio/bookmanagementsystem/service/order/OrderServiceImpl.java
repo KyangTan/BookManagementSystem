@@ -65,11 +65,6 @@ public class OrderServiceImpl implements OrderService {
         var orders = orderRepository.findAll((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            // 按userId过滤
-            if (userId != null) {
-                predicates.add(criteriaBuilder.equal(root.get("userId"), userId));
-            }
-
             // 按价格区间过滤
             if (priceFilterLowerBound != null) {
                 predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("totalPrice"), priceFilterLowerBound));
@@ -151,6 +146,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
+    @Transactional
     public GetOrderDto updateOrder(Long orderId, Order updatedOrder) {
         // 查找现有的订单，如果不存在则抛出异常
         Order existingOrder = orderRepository.findByIdWithPessimisticLock(orderId)
@@ -194,16 +190,23 @@ public class OrderServiceImpl implements OrderService {
         // The order is still running, not something in the past, need to add back the book stock quantity in database
         if (order.getStatus().equals(OrderStatusEnum.ORDER_STATUS_PROCESSING) || order.getStatus().equals(OrderStatusEnum.ORDER_STATUS_DELIVERING)) {
             order.setStatus(OrderStatusEnum.ORDER_STATUS_CANCELLED);
+            orderRepository.save(order);
 
             List<OrderedBook> orderedBooks = orderedBookRepository.findAllByOrderId(orderId);
             for (OrderedBook orderedBook : orderedBooks) {
-                orderedBook.getBook().setStockQuantity(orderedBook.getBook().getStockQuantity() + orderedBook.getQuantity());
-                bookService.updateBook(orderedBook.getBook().getId(), orderedBook.getBook());
+                Book book = orderedBook.getBook();
+                int newStockQuantity = book.getStockQuantity() + orderedBook.getQuantity();
+
+                // Update the book stock directly
+                book.setStockQuantity(newStockQuantity);
+                bookRepository.save(book); // Direct repository save avoids redundant logic in bookService
             }
         }
+        order.setIsDeleted(true);
+        orderRepository.save(order);
 
         // Logical delete the order
-        orderRepository.delete(order);
+//        orderRepository.delete(order);
     }
     @Override
     @Transactional
