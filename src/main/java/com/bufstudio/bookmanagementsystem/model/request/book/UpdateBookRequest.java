@@ -11,23 +11,14 @@ import java.math.BigDecimal;
 public class UpdateBookRequest implements Serializable {
     @Serial
     private static final long serialVersionUID = 6764624002336635225L;
-    private Long BookId;
     private String title;
     private String author;
     private String genre;
     private Integer stockQuantity;
     private Integer restockThreshold;
 
-    public Long getBookId() {
-        return BookId;
-    }
-
-    public void setBookId(Long bookId) {
-        this.BookId = bookId;
-    }
 
     private BigDecimal price;
-
 
     public String getTitle() {
         return title;

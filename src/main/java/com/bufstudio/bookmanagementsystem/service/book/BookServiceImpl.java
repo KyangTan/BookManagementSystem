@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -27,7 +28,11 @@ public class BookServiceImpl implements BookService {
     public GetBookDto getBook(Long bookId) {
         Book book = bookRepository.findById(bookId)
                 .filter(b -> !b.getIsDeleted())
-                .orElseThrow(() -> new IllegalArgumentException("Book not found with id: " + bookId));
+                .orElse(null);
+
+        if (book == null) {
+            return null;
+        }
 
         return BookDtoMapper.mapBookToGetBookDto(book);
     }
@@ -72,7 +77,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public GetBookDto updateBook(Long bookId, Book updatedBook) {
-        Book existingBook = bookRepository.findById(bookId)
+        Book existingBook = bookRepository.findByIdAndIsDeletedFalse(bookId)
                 .orElseThrow(() -> new IllegalArgumentException("Book not found with id: " + bookId));
 
         // Update fields
@@ -92,6 +97,7 @@ public class BookServiceImpl implements BookService {
 
 
     @Override
+    @Transactional
     public void deleteBook(Long bookId) {
         Book book = bookRepository.findByIdWithPessimisticLock(bookId)
                 .orElseThrow(() -> new IllegalArgumentException("Book not found with id: " + bookId));

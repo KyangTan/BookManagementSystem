@@ -23,9 +23,15 @@ public class ResponseUtil {
 
         if (data != null) {
             response.put("data", data);
+        } else {
+            response.put("data", new HashMap<>());
         }
 
-        logger.error("Response: trace={}, success={}, timestamp={}", traceId, true, LocalDateTime.now());
+        if (statusCode.compareTo(HttpStatus.OK) >= 0 && statusCode.compareTo(HttpStatus.MULTIPLE_CHOICES) < 0) {
+            logger.info("Response: trace={}, success={}, timestamp={}", traceId, true, LocalDateTime.now());
+        } else {
+            logger.error("Response: trace={}, success={}, timestamp={}", traceId, false, LocalDateTime.now());
+        }
 
         // TODO: Insert Trace Record into Database
         //       IMPLEMENTATION HERE

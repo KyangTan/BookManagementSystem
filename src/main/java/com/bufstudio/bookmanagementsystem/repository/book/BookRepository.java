@@ -15,4 +15,6 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT b FROM Book b WHERE b.id = :bookId")
     Optional<Book> findByIdWithPessimisticLock(Long bookId);
+
+    Optional<Book> findByIdAndIsDeletedFalse(Long bookId);
 }
