@@ -1,5 +1,6 @@
 package com.bufstudio.bookmanagementsystem.service.promo;
 
+import com.bufstudio.bookmanagementsystem.enumeration.PromoCriteriaTypeEnum;
 import com.bufstudio.bookmanagementsystem.model.dto.promo.PromoCriteriaDto;
 import com.bufstudio.bookmanagementsystem.model.dto.promo.PromoDto;
 import com.bufstudio.bookmanagementsystem.model.entity.*;
@@ -88,6 +89,20 @@ public class PromoServiceImpl implements PromoService {
     @Override
     @Transactional
     public Optional<PromoCriteriaDto> createPromoCriteria(Long promoId, String description, String conditionType, String conditionValue) {
+
+        if (promoId == null || promoId <= 0) {
+            throw new IllegalArgumentException("Invalid promo id");
+        }
+
+        if (conditionType == null || conditionType.isBlank() ||
+                isValidConditionType(conditionType)) {
+            throw new IllegalArgumentException("Invalid condition type");
+        }
+
+        if (conditionValue == null || conditionValue.isBlank()) {
+            throw new IllegalArgumentException("Invalid condition value");
+        }
+
         return promoRepository.findById(promoId).map(promo -> {
             PromoCriteria criteria = new PromoCriteria();
             criteria.setPromo(promo);
@@ -100,6 +115,11 @@ public class PromoServiceImpl implements PromoService {
         });
     }
 
+    private static boolean isValidConditionType(String conditionType) {
+        return !conditionType.equals(PromoCriteriaTypeEnum.PROMOTION_CRITERIA_TYPE_ORDER_TOTAL_PRICE) &&
+                !conditionType.equals(PromoCriteriaTypeEnum.PROMOTION_CRITERIA_TYPE_ORDER_TOTAL_BOOK_COUNT);
+    }
+
     @Override
     public List<PromoCriteriaDto> getCriteriaForPromo(Long promoId) {
         return promoCriteriaRepository.findByPromoId(promoId).stream()
@@ -110,6 +130,20 @@ public class PromoServiceImpl implements PromoService {
     @Override
     @Transactional
     public Optional<PromoCriteriaDto> updatePromoCriteria(Long id, String description, String conditionType, String conditionValue) {
+
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Invalid id");
+        }
+
+        if (conditionType == null || conditionType.isBlank() ||
+                isValidConditionType(conditionType)) {
+            throw new IllegalArgumentException("Invalid condition type");
+        }
+
+        if (conditionValue == null || conditionValue.isBlank()) {
+            throw new IllegalArgumentException("Invalid condition value");
+        }
+
         return promoCriteriaRepository.findById(id).map(criteria -> {
             criteria.setDescription(description);
             criteria.setConditionType(conditionType);

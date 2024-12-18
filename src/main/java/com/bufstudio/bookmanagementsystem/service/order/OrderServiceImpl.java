@@ -1,6 +1,7 @@
 package com.bufstudio.bookmanagementsystem.service.order;
 
 import com.bufstudio.bookmanagementsystem.enumeration.OrderStatusEnum;
+import com.bufstudio.bookmanagementsystem.enumeration.PromoCriteriaTypeEnum;
 import com.bufstudio.bookmanagementsystem.mapper.OrderDtoMapper;
 import com.bufstudio.bookmanagementsystem.model.dto.order.BookOrderDto;
 import com.bufstudio.bookmanagementsystem.model.dto.order.GetOrderDto;
@@ -11,6 +12,7 @@ import com.bufstudio.bookmanagementsystem.repository.book.BookRepository;
 import com.bufstudio.bookmanagementsystem.repository.order.OrderRepository;
 import com.bufstudio.bookmanagementsystem.repository.ordered_book.OrderedBookRepository;
 import com.bufstudio.bookmanagementsystem.repository.promo.PromoRepository;
+import com.bufstudio.bookmanagementsystem.repository.promo_criteria.PromoCriteriaRepository;
 import com.bufstudio.bookmanagementsystem.repository.user.UserRepository;
 import com.bufstudio.bookmanagementsystem.service.book.BookService;
 import jakarta.persistence.criteria.Predicate;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +49,12 @@ public class OrderServiceImpl implements OrderService {
     PromoRepository promoRepository;
 
     @Autowired
+    private PromoCriteriaRepository promoCriteriaRepository;
+
+    @Autowired
     PromotedOrderRepository promotedOrderRepository;
+
+    private static final RoundingMode DEFAULT_ROUNDING_MODE = RoundingMode.HALF_UP;
 
     @Override
     public GetOrderDto getOrder(Long orderId) {
@@ -208,9 +216,10 @@ public class OrderServiceImpl implements OrderService {
         // Logical delete the order
 //        orderRepository.delete(order);
     }
+
     @Override
     @Transactional
-    public boolean applyPromoToOrder(Long orderId, Long promoId) {
+    public void applyPromoToOrder(Long orderId, Long promoId) {
         Optional<Order> orderOpt = orderRepository.findById(orderId);
         Optional<Promo> promoOpt = promoRepository.findById(promoId);
 
@@ -218,10 +227,14 @@ public class OrderServiceImpl implements OrderService {
             Order order = orderOpt.get();
             Promo promo = promoOpt.get();
 
+            List<PromoCriteria> promoCriterias = promoCriteriaRepository.findByPromoId(promoId);
+
+            validatePromoCriteria(promoCriterias, order);
+
             // 计算折扣后的总价
             BigDecimal discountRate = promo.getDiscountRate();
             BigDecimal discountedPrice = order.getTotalPrice()
-                    .multiply(BigDecimal.valueOf(1).subtract(discountRate.divide(BigDecimal.valueOf(100))));
+                    .multiply(BigDecimal.valueOf(1).subtract(discountRate.divide(BigDecimal.valueOf(100), DEFAULT_ROUNDING_MODE)));
 
             // 设置新的总价
             order.setTotalPrice(discountedPrice);
@@ -236,9 +249,37 @@ public class OrderServiceImpl implements OrderService {
 
             promotedOrderRepository.save(promotedOrder);
 
-            return true;
+        } else {
+            if (orderOpt.isEmpty()) {
+                throw new IllegalArgumentException("Order not found with id: " + orderId);
+            }
+            if (promoOpt.isEmpty()) {
+                throw new IllegalArgumentException("Promo not found with id: " + promoId);
+            }
         }
-        return false;
+    }
+
+    private static void validatePromoCriteria(List<PromoCriteria> promoCriterias, Order order) {
+
+        if (promoCriterias.isEmpty()) {
+            return;
+        }
+
+        for (PromoCriteria promoCriteria : promoCriterias) {
+            String conditionType = promoCriteria.getConditionType();
+            String conditionValue = promoCriteria.getConditionValue();
+            String description = promoCriteria.getDescription();
+
+            if (conditionType.equals(PromoCriteriaTypeEnum.PROMOTION_CRITERIA_TYPE_ORDER_TOTAL_BOOK_COUNT)) {
+                if (Integer.parseInt(conditionValue) > order.getOrderedBooks().size()) {
+                    throw new IllegalStateException("Not enough books in the order to apply promo: " + description);
+                }
+            } else if (conditionType.equals(PromoCriteriaTypeEnum.PROMOTION_CRITERIA_TYPE_ORDER_TOTAL_PRICE)) {
+                if (order.getTotalPrice().compareTo(new BigDecimal(conditionValue)) < 0) {
+                    throw new IllegalStateException("Order total price is less than promo price: " + description);
+                }
+            }
+        }
     }
 }
 

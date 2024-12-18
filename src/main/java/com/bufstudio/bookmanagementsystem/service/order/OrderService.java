@@ -21,6 +21,6 @@ public interface OrderService {
 
     void deleteOrder(Long orderId);
 
-    boolean applyPromoToOrder(Long orderId, Long promoId);
+    void applyPromoToOrder(Long orderId, Long promoId);
 }
 
