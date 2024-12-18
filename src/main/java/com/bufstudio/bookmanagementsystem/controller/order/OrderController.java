@@ -30,6 +30,6 @@ public interface OrderController {
     ResponseEntity<Map<String, Object>> deleteOrder(@PathVariable Long orderId);
 
 
-    @PostMapping("/applyPromo")
+    @PostMapping("/{orderId}/applyPromo/{promoId}")
     ResponseEntity<Map<String, Object>> applyPromoToOrder(@PathVariable Long orderId, @PathVariable Long promoId);
 }

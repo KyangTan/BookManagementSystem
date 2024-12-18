@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface PromotedOrderRepository extends JpaRepository<PromotedOrder, Long> {
     List<PromotedOrder> findByPromoId(Long promoId);
+
 }

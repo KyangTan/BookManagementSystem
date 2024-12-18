@@ -77,13 +77,14 @@ public class OrderControllerImpl implements OrderController {
         return ResponseUtil.createSuccessResponse("Successfully deleted the order", null);
     }
 
-
-
-    public ResponseEntity<Map<String, Object>> applyPromoToOrder( Long orderId,  Long promoId) {
-        orderService.applyPromoToOrder(orderId,promoId);
-        return ResponseUtil.createSuccessResponse("Promo applied successfully to the order", null);
-
+    @Override
+    public ResponseEntity<Map<String, Object>> applyPromoToOrder(Long orderId, Long promoId) {
+            orderService.applyPromoToOrder(orderId,promoId);
+            return ResponseUtil.createSuccessResponse("Promo applied successfully to the order", null);
+        }
     }
-}
+
+
+
 
 

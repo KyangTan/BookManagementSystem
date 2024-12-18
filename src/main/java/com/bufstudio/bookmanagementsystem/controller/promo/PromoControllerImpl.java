@@ -13,7 +13,6 @@ import com.bufstudio.bookmanagementsystem.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Map;
 
@@ -78,4 +77,5 @@ public class PromoControllerImpl implements PromoController {
         Boolean isDeleted = promoService.deletePromoCriteria(id);
         return ResponseUtil.createSuccessResponse("Successfully deleted promo criteria", isDeleted);
     }
+
 }
